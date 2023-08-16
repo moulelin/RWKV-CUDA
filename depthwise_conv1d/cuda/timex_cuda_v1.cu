@@ -57,6 +57,25 @@ __global__ void kernel_backward(const F *__restrict__ const w, const F *__restri
         s += ggw[-u] * ww[u];
     }
     gk[i * T + t] = s;
+//  看前向传播输出了什么，以及哪些w参与了这个k[t]的计算，不清楚可以写一个简单脚本
+     // import numpy as np
+// h = np.arange(0,10)
+// w = np.arange(10,20)
+// hidx = 4
+// s = 0
+// for idx in range(10):
+//     for i in range(idx):
+//         s = s + h[i]*w[10 - idx + i]
+//         if i == 2:
+//             print(f"h_{i} and w_{10 - idx + i}, for {idx}")
+// 　输出如下：
+// h_2 and w_9, for 3
+// h_2 and w_8, for 4
+// h_2 and w_7, for 5
+// h_2 and w_6, for 6
+// h_2 and w_5, for 7
+// h_2 and w_4, for 8
+// h_2 and w_3, for 9
 }
 
 void cuda_forward(const float *w, const float *k, float *x, float eps, int B, int C, int T)
